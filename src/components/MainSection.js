@@ -7,31 +7,22 @@ import CityCursor from "./CityCursor.js";
 
 import { setVisibilityFilter } from "../actions";
 
-class MainSection extends React.Component {
-    render() {
-        return (
-            <div className="page-wrap">
-                {this.props.filter === "TRIP_RESULTS" &&
-                    window.innerWidth < window.innerHeight && (
-                        <div
-                            className="changeSearch"
-                            onClick={() => this.props.setVisibilityFilter("ONLY_FORM")}
-                        >
-                            Modifier la recherche
-                        </div>
-                    )}
-                <div className="mainLayout">
-                    {this.props.filter !== "TRIP_RESULTS" && <Form />}
-
-                    {this.props.flights && this.props.filter !== "ONLY_FORM" && <TripList />}
-                    {this.props.filter === "TRIP_RESULTS" && this.props.flights && (
-                        <CityCursor />
-                    )}
+const MainSection = ({ flights, filter, setVisibilityFilter }) => {
+    return (
+        <div className="page-wrap">
+            {window.innerWidth < window.innerHeight && filter === "TRIP_RESULTS" && (
+                <div className="changeSearch" onClick={() => setVisibilityFilter("ONLY_FORM")}>
+                    Modifier la recherche
                 </div>
+            )}
+            <div className="mainLayout">
+                {filter !== "TRIP_RESULTS" && <Form />}
+                {flights && filter !== "ONLY_FORM" && <TripList />}
+                {filter === "TRIP_RESULTS" && flights && <CityCursor />}
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 const mapStateToProps = (state) => {
     return { flights: state.flights, filter: state.filter };

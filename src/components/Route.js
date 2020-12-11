@@ -2,7 +2,6 @@ import React from "react";
 
 import "../css/Trip.css";
 
-//détail des props en bas avec le PropTypes
 const Route = ({ carrier, day, date, origin, destination, direct }) => {
     return (
         <div className="flight">

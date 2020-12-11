@@ -894,6 +894,14 @@
 
 		}
 
+		@media screen and (max-width: 480px) {
+			
+			.gallery.form {
+				padding-left: 5%;
+			}
+
+		}
+
 		.gallery header {
 			display: -ms-flexbox;
 			-ms-flex-pack: justify;
