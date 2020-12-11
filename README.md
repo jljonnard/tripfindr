@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+Ce code correspond à l'application disponible [ici](https://tripfindr.vercel.app/).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# But de l'application
 
-## Available Scripts
+Cette application vous permet de chercher des vols pas chers à des dates flexibles.
 
-In the project directory, you can run:
+Le seul critère obligatoire c'est votre lieu de départ (il faut bien commencer quelque part !)<br />
+Cependant d'autres critères de recherche sont disponibles :
 
-### `npm start`
+`Pays`: vous proposant des pays de destination<br />
+`Période`: vous proposant des mois pour partir<br />
+`Durée`: pour préciser combien de temps vous voulez partir<br />
+`Prix Min`et `Prix max`: pour délimiter pour votre budget<br />
+`Direct` : une case à cocher pour éviter leslongs trajets
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Une fois cliqué sur `Trouver un voyage`, de nombreux résultats seront affichés accompagnés de photos afin de pouvoir visualiser les destinations.
 
-### `npm test`
+Si l'on veut en savoir plus sur un voyage on peut cliquer sur `Voir plus de détails`.<br />
+On retrouve ainsi le nom des compagnies aériennes, les jours de départ, les aéroports, le pays de la destination etc.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Si ce voyage nous plait on peut alors cliquer sur `Consulter l'offre` afin de commencer les démarches de réservation.
 
-### `npm run build`
+# Technologies utilisées
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## React
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Le framework React a été utilisé pour mener à bien ce projet.<br />
+L'approche des `hooks` face aux classes a aussi été choisie.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## APIs
 
-### `npm run eject`
+2 APIs ont été utilisées lors du projet :
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### `SkyScanner`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Cette API permet de trouver des vols en fonction d'un lieu de départ, un lieu d'arrivée, la date de départ, la date d'arrivée, le marché local, la langue et la monnaie utilisée.<br />
+Le taux de réponse est très bon, mais l'API présente tout de même quelques problèmes :
+<ul>
+<li>La même requette dans 2 langues différentes peut donner des résultats différents dès lors que la requête commence à donner 170 vols. Ce qui ne devrait pas arriver puisqu'on n'a pas changé le marché</li>
+<li>La réponse est extrêmement mal organisée. Beaucoup d'id sont utilisés alors que parfois un id nous donne accès à qu'une seule information. Cela nécessite donc de reformater la réponse ensuite.</li>
+</ul>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `Unsplash`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Cette API fournit des photos en fonction d'une recherche. C'est elle qui permet de mettre des photos sur chaque résultat. Elle est très facile d'utilistaion et rapide. 
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Le seul défaut serait qu'on atteint rapidement le nombre de requêtes maximales à faire. Mais on peut partiellement palier ce problème en enregistrant les urls des photos dans le state plutôt que de refaire une requête API à chaque fois.
