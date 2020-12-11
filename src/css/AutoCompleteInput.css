@@ -1,0 +1,19 @@
+.autoCompleteInputWrapper, label {
+    margin: 0%;
+    display: block;
+}
+
+.results {
+    z-index: 7;
+    position: absolute;
+    background-color: #FFF;
+    border: #bfbfbf 1px;
+    border-style: solid;
+    border-radius: 3px;
+    display: none;
+}
+
+.result.selected , .result:hover {
+    background-color: #1d78df;
+    color: #FFF;
+}

@@ -1,0 +1,267 @@
+.price, .dates, .date, .country, .asking-details,
+.carrier, .airport, .mainCity, .direct, .route {
+    margin: auto;
+}
+.price, .dates, .country, .asking-details, .mainCity {
+    color: #fff;
+}
+
+.trip {
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 30px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.media, .flight, .route{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.direct, .carrier, .date {
+    text-align: center;
+}
+
+.content {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0em 0.2em .6em #bfbfbf;
+}
+.media {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.price, .mainCity, .country, .dates {
+    margin-left: 2%;
+    text-align: left;
+    text-shadow: -2px 2px 0 rgba(0, 0, 0, 0.125);
+}
+
+.price {
+    font-size: 700%;
+}
+.mainCity {
+    margin-top: 5%;
+    font-size: 600%;
+}
+
+.asking-details {
+    margin-left: 30%;
+    display: inline-block;
+    font-size: 150%;
+    cursor: pointer;
+}
+.arrow {
+    font-size: 30px;
+}
+
+.details-wrap {
+    background-color: rgb(255, 255, 255);
+    width: 80%;
+    border-radius: 30px;
+
+    transition-property: transform;
+	transition-duration: 0.7s;
+    transition-timing-function: ease;
+}
+.details {
+    margin-top: 1%;
+    width: 100%;
+}
+
+.hide-details {
+    cursor: pointer;
+    display: flex;
+    margin: auto;
+    font-size: 140%;
+}
+.dates {
+    font-size: 1.8em;
+}
+
+.detailCity {
+    margin-left: 5%;
+    text-align: left;
+    font-size: 250%;
+    font-weight: 700;
+}
+.country {
+    font-size: 2.5em;
+    font-weight: 400;
+}
+.airport {
+    color: #22313F;
+    font-weight: 600;
+}
+
+.carrier {
+    color: #22313F;
+    width: 25%;
+    font-size: 140%;
+}
+.date {
+    color: #22313F;
+    width: 20%;
+}
+.route {
+    color: #22313F;
+    width: 40%;
+}
+.direct {
+    color: #22313F;
+    width: 15%;
+}
+
+@media screen and (max-height: 570px) {
+
+    .price {
+        font-size: 600%;;
+    }
+    .mainCity {
+        font-size: 500%;
+    }
+    .country {
+        font-size: 2em;
+    }
+    .dates {
+        font-size: 1.5em;
+    }
+    .asking-details {
+        margin-left: 250px;
+    }
+
+    .details {
+        margin-top: 3%;
+        margin-bottom: 1.5%;
+    }
+
+    .hide-details {
+        font-size: 120%;
+    }
+    .detailCity {
+        margin-left: 3%;
+        font-size: 200%;
+    }
+
+    .airport {
+        font-weight: 600;
+        font-size: 100%;
+    }
+    .carrier {
+        font-size: 120%;
+        font-weight: 400;
+    }
+
+}
+
+@media screen and (max-width: 736px) {
+
+    .trip {
+        height: 72vh;
+    }
+    
+    .price {
+        font-size: 400%;;
+    }
+    
+    .carrier {
+        font-size: 120%;
+        font-weight: 400;
+    }
+    .airport {
+        font-weight: 600;
+        font-size: 100%;
+    }
+    .mainCity {
+        font-size: 400%;
+    }
+    .country {
+        font-size: 2em;
+    }
+    .dates {
+        font-size: 1.5em;
+    }
+    .asking-details {
+        margin-left: 120px;
+        font-size: 120%;
+    }
+
+    .details-wrap {
+        width: 100%;
+        position: absolute;
+        top: 72vh;
+    }
+    .details {
+        margin-top: 3%;
+        margin-bottom: 1.5%;
+    }
+
+    .hide-details {
+        font-size: 120%;
+    }
+    .detailCity {
+        margin-left: 3%;
+        font-size: 200%;
+    }
+    .carrier {
+        width: 40%;
+    }
+    .date {
+        width: 60%;
+    }
+    .route {
+        width: 70%;
+    }
+    .direct {
+        width: 30%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .price {
+        font-size: 350%;;
+    }
+    .mainCity {
+        font-size: 250%;
+    }
+    
+    .country {
+        font-size: 140%;
+    }
+    .carrier {
+        font-size: 90%;
+        font-weight: 400;
+    }
+    .airport {
+        font-weight: 600;
+        font-size: 100%;
+    }
+    .detailCity {
+        display: none;
+    }
+    .direct {
+        font-size: 90%;
+    }
+
+    .asking-details {
+        font-size: 110%;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .date {
+        font-weight: 500;
+    }
+    .flight {
+        margin-top: 4%;
+        margin-bottom: 4%;
+    }
+
+}
+
+
