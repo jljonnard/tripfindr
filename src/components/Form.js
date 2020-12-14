@@ -24,6 +24,7 @@ const Form = () => {
 
     const submitForm = () => {
         if (checkForm()) {
+            console.log(fields);
             dispatch(fetchFlights(fields));
             if (document.querySelector(".tripResults")) {
                 document.querySelector(".tripResults").style.width = "100%";
@@ -53,6 +54,7 @@ const Form = () => {
                         id="origin"
                         labelTitle="Lieu de départ"
                         results={airports}
+                        presetValue={fields.origin}
                         setValue={setOrigin}
                     />
                     <span className="alert">Veuillez sélectionner un aéroport</span>
@@ -63,6 +65,7 @@ const Form = () => {
                         labelTitle="Pays"
                         results={countries}
                         firstResult="Sans préférence"
+                        presetValue={fields.destination}
                         setValue={setDestination}
                     />
                     <span className="alert">
@@ -73,6 +76,7 @@ const Form = () => {
                     <DropDown
                         labelTitle="Période"
                         possibilities={seasons}
+                        presetValue={fields.season}
                         setValue={setSeason}
                     />
                 </div>
@@ -80,6 +84,7 @@ const Form = () => {
                     <DropDown
                         labelTitle="Durée du voyage"
                         possibilities={ranges}
+                        presetValue={fields.range}
                         setValue={setRange}
                     />
                 </div>
@@ -91,6 +96,7 @@ const Form = () => {
                         onChange={(event) =>
                             dispatch(setMinPrice(parseInt(event.target.value)))
                         }
+                        value={fields.minPrice}
                     />
                 </div>
                 <div className="field half">
@@ -101,14 +107,24 @@ const Form = () => {
                         onChange={(event) =>
                             dispatch(setMaxPrice(parseInt(event.target.value)))
                         }
+                        value={fields.maxPrice}
                     />
                 </div>
                 <div className="field solo">
-                    <input
-                        type="checkbox"
-                        name="direct"
-                        onChange={(event) => dispatch(setDirect(event.target.checked))}
-                    />
+                    {fields.direct ? (
+                        <input
+                            type="checkbox"
+                            name="direct"
+                            onChange={(event) => dispatch(setDirect(event.target.checked))}
+                            checked
+                        />
+                    ) : (
+                        <input
+                            type="checkbox"
+                            name="direct"
+                            onChange={(event) => dispatch(setDirect(event.target.checked))}
+                        />
+                    )}
                     <label htmlFor="direct">Direct seulement</label>
                 </div>
                 <div className="field solo">

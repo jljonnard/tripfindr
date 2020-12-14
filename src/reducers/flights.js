@@ -32,7 +32,7 @@ export default (state = null, action) => {
                     "PlaceId",
                     "CountryName"
                 ),
-                originAirport: action.payload.fields.origin.slice(0, 3),
+                originAirport: action.payload.fields.origin.value.slice(0, 3),
                 outboundLegAirport: getObject(
                     quote.OutboundLeg.DestinationId,
                     action.payload.fr.data.Places,
@@ -92,15 +92,15 @@ export default (state = null, action) => {
                 .filter(
                     (flight) =>
                         !(
-                            action.payload.fields.range[0] !== 0 &&
-                            (action.payload.fields.range[0] === 2
+                            action.payload.fields.range.value[0] !== 0 &&
+                            (action.payload.fields.range.value[0] === 2
                                 ? !(
                                       getRange(flight.outboundLegDate, flight.inboundLegDate) <
                                           5 &&
                                       [5, 6].includes(getDayNumber(flight.outboundLegDate)) &&
                                       [0, 1].includes(getDayNumber(flight.inboundLegDate))
                                   )
-                                : !action.payload.fields.range.includes(
+                                : !action.payload.fields.range.value.includes(
                                       getRange(flight.outboundLegDate, flight.inboundLegDate)
                                   ))
                         )

@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Trip from "./Trip.js";
+import Trip from "./Trip";
 
 import { setVisibilityFilter } from "../actions";
 
 const TripList = () => {
-    const flights = useSelector(state => state.flights)
-    const filter = useSelector(state => state.filter)
-    const selectedTrip = useSelector(state => state.selectedTrip)
-    const dispatch = useDispatch()
+    const flights = useSelector((state) => state.flights);
+    const filter = useSelector((state) => state.filter);
+    const dispatch = useDispatch();
 
     const updateLayout = (action) => {
         const tripResults = document.querySelector(".tripResults");
@@ -32,9 +31,18 @@ const TripList = () => {
         }
     };
 
+    useEffect(() => {
+        if (flights.length === 0) {
+            document.body.style.backgroundImage =
+                window.innerWidth > window.innerHeight
+                    ? "url('https://images.unsplash.com/photo-1594295504608-607714ce9e0e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=658&q=80')"
+                    : "url('https://images.unsplash.com/photo-1544032659-b51fdffab4c6?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80')";
+        }
+    }, [flights.length]);
+
     return (
         <div className="tripResults">
-            {flights && window.innerWidth > window.innerHeight && (
+            {window.innerWidth > window.innerHeight && (
                 <div className="clickable showForm">
                     {filter === "HOME" ? (
                         <div onClick={() => updateLayout("close")}>
@@ -47,17 +55,19 @@ const TripList = () => {
                     )}
                 </div>
             )}
-            {flights && (
-                <div>
-                    {selectedTrip && <Trip />}
-                    {flights.length === 0 && (
-                        <h2 className="align-center">
+            <div>
+                {flights.length > 0 ? (
+                    <Trip />
+                ) : (
+                    <div>
+                        <h2 className="country">
                             Désolé, aucun vol n'a pu être trouvé selon vos critères de
-                            recherches ;(
+                            recherche ;(
                         </h2>
-                    )}
-                </div>
-            )}
+                        <p className="dates">Essayez de faire une recherche moins précise pour obtenir plus de résultats</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

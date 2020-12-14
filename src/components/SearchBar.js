@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 
 import "../css/AutoCompleteInput.css";
 
-const SearchBar = ({ id, labelTitle, results, setValue, firstResult }) => {
+const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstResult }) => {
     const [resultsList, setResultsList] = useState([]);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState(presetValue.title);
     const [selectedResult, setSelectedResult] = useState(-1);
     const dispatch = useDispatch()
 
@@ -93,7 +93,7 @@ const SearchBar = ({ id, labelTitle, results, setValue, firstResult }) => {
     const handleClick = (chosenResult) => {
         reset();
         setSearch(chosenResult.title);
-        dispatch(setValue(chosenResult.value));
+        dispatch(setValue(chosenResult));
     };
 
     const reset = () => {

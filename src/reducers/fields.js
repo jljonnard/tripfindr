@@ -1,6 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
 export default (
-    state = { destination: "anywhere", season: "anytime", range: [0], direct: false },
+    state = {
+        destination: { title: "", value: "anywhere" },
+        season: { title: "", value: "anytime" },
+        range: { value: [0] },
+        direct: false,
+    },
     action
 ) => {
     switch (action.type) {

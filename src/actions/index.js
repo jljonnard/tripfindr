@@ -4,13 +4,13 @@ import { skyScannerKey, unsplashKey } from "../apis/keys";
 export const fetchFlights = (fields) => async (dispatch) => {
     const frenchResponse = await skyscannerAPI.get(
         "/fr-FR/" +
-            fields.origin +
+            fields.origin.value +
             "/" +
-            fields.destination +
+            fields.destination.value +
             "/" +
-            fields.season +
+            fields.season.value +
             "/" +
-            fields.season,
+            fields.season.value,
         {
             headers: {
                 "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
@@ -22,13 +22,13 @@ export const fetchFlights = (fields) => async (dispatch) => {
 
     const englishResponse = await skyscannerAPI.get(
         "/en-UK/" +
-            fields.origin +
+            fields.origin.value +
             "/" +
-            fields.destination +
+            fields.destination.value +
             "/" +
-            fields.season +
+            fields.season.value +
             "/" +
-            fields.season,
+            fields.season.value,
         {
             headers: {
                 "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
