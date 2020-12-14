@@ -1,25 +1,30 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../css/Trip.css";
 
 import { fetchPhoto, openDetails } from "../actions";
 import TripDetails from "./TripDetails";
 
-const Trip = ({ selectedTrip, photo, areDetailsOpen, fetchPhoto, openDetails }) => {
+const Trip = () => {
+    const selectedTrip = useSelector(state => state.selectedTrip)
+    const photo = useSelector(state => state.photo)
+    const areDetailsOpen = useSelector(state => state.areDetailsOpen)
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        fetchPhoto(
+        dispatch(fetchPhoto(
             selectedTrip.englishCityName,
             window.innerWidth < window.innerHeight ? "portrait" : "landscape"
-        );
-    }, [selectedTrip, fetchPhoto]);
+        ));
+    }, [selectedTrip, dispatch]);
 
     useEffect(() => {
         document.body.style.backgroundImage = photo;
     }, [photo]);
 
     const handleDetails = () => {
-        openDetails();
+        dispatch(openDetails());
         setTimeout(() => {
             document.querySelector(".details-wrap").style.transform = "translateY(-100%)";
         }, 1);
@@ -53,12 +58,4 @@ const Trip = ({ selectedTrip, photo, areDetailsOpen, fetchPhoto, openDetails }) 
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        selectedTrip: state.selectedTrip,
-        photo: state.photo,
-        areDetailsOpen: state.areDetailsOpen,
-    };
-};
-
-export default connect(mapStateToProps, { fetchPhoto, openDetails })(Trip);
+export default Trip;

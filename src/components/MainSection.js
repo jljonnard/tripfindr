@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Form from "./Form";
 import TripList from "./TripList";
@@ -7,25 +7,28 @@ import CityCursor from "./CityCursor.js";
 
 import { setVisibilityFilter } from "../actions";
 
-const MainSection = ({ flights, filter, setVisibilityFilter }) => {
+const MainSection = () => {
+    const flights = useSelector((state) => state.flights);
+    const filter = useSelector((state) => state.filter);
+    const dispatch = useDispatch();
+
     return (
         <div className="page-wrap">
             {window.innerWidth < window.innerHeight && filter === "TRIP_RESULTS" && (
-                <div className="changeSearch" onClick={() => setVisibilityFilter("ONLY_FORM")}>
+                <div
+                    className="changeSearch"
+                    onClick={() => dispatch(setVisibilityFilter("ONLY_FORM"))}
+                >
                     Modifier la recherche
                 </div>
             )}
             <div className="mainLayout">
                 {filter !== "TRIP_RESULTS" && <Form />}
-                {flights && filter !== "ONLY_FORM" && <TripList />}
-                {filter === "TRIP_RESULTS" && flights && <CityCursor />}
+                {filter !== "ONLY_FORM" && flights && <TripList />}
+                {filter === "TRIP_RESULTS" && flights && flights.length > 0 && <CityCursor />}
             </div>
         </div>
     );
 };
 
-const mapStateToProps = (state) => {
-    return { flights: state.flights, filter: state.filter };
-};
-
-export default connect(mapStateToProps, { setVisibilityFilter })(MainSection);
+export default MainSection;

@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "../css/Trip.css";
 
@@ -7,11 +7,14 @@ import { closeDetails } from "../actions";
 
 import Route from "./Route";
 
-const TripDetails = ({ selectedTrip, closeDetails }) => {
+const TripDetails = () => {
+    const selectedTrip = useSelector(state => state.selectedTrip)
+    const dispatch = useDispatch()
+
     const handleDetails = () => {
         document.querySelector(".details-wrap").style.transform = "translateY(+20%)";
         setTimeout(() => {
-            closeDetails();
+            dispatch(closeDetails());
         }, 600);
     };
 
@@ -54,8 +57,4 @@ const TripDetails = ({ selectedTrip, closeDetails }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return { selectedTrip: state.selectedTrip };
-};
-
-export default connect(mapStateToProps, { closeDetails })(TripDetails);
+export default TripDetails;

@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import DropDown from "./DropDown.js";
 import SearchBar from "./SearchBar";
@@ -18,27 +18,19 @@ import {
 
 import { airports, countries, seasons, ranges } from "../utilities/constants.js";
 
-const Form = ({
-    fields,
-    fetchFlights,
-    setOrigin,
-    setDestination,
-    setSeason,
-    setRange,
-    setMinPrice,
-    setMaxPrice,
-    setDirect,
-    setVisibilityFilter,
-}) => {
+const Form = () => {
+    const fields = useSelector((state) => state.fields);
+    const dispatch = useDispatch();
+
     const submitForm = () => {
         if (checkForm()) {
-            fetchFlights(fields);
+            dispatch(fetchFlights(fields));
             if (document.querySelector(".tripResults")) {
                 document.querySelector(".tripResults").style.width = "100%";
             }
             document.querySelector(".search").style.transform = "translateX(-100%)";
             setTimeout(() => {
-                setVisibilityFilter("TRIP_RESULTS");
+                dispatch(setVisibilityFilter("TRIP_RESULTS"));
             }, 700);
         }
     };
@@ -96,7 +88,9 @@ const Form = ({
                     <input
                         type="text"
                         placeholder="Aucun"
-                        onChange={(event) => setMinPrice(parseInt(event.target.value))}
+                        onChange={(event) =>
+                            dispatch(setMinPrice(parseInt(event.target.value)))
+                        }
                     />
                 </div>
                 <div className="field half">
@@ -104,14 +98,16 @@ const Form = ({
                     <input
                         type="text"
                         placeholder="Sans limite"
-                        onChange={(event) => setMaxPrice(parseInt(event.target.value))}
+                        onChange={(event) =>
+                            dispatch(setMaxPrice(parseInt(event.target.value)))
+                        }
                     />
                 </div>
                 <div className="field solo">
                     <input
                         type="checkbox"
                         name="direct"
-                        onChange={(event) => setDirect(event.target.checked)}
+                        onChange={(event) => dispatch(setDirect(event.target.checked))}
                     />
                     <label htmlFor="direct">Direct seulement</label>
                 </div>
@@ -125,18 +121,4 @@ const Form = ({
     );
 };
 
-const mapStateToProps = (state) => {
-    return { fields: state.fields };
-};
-
-export default connect(mapStateToProps, {
-    fetchFlights,
-    setOrigin,
-    setDestination,
-    setSeason,
-    setRange,
-    setMinPrice,
-    setMaxPrice,
-    setDirect,
-    setVisibilityFilter,
-})(Form);
+export default Form;

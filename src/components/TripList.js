@@ -1,16 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Trip from "./Trip.js";
 
 import { setVisibilityFilter } from "../actions";
 
-const TripList = ({ flights, filter, selectedTrip, setVisibilityFilter }) => {
+const TripList = () => {
+    const flights = useSelector(state => state.flights)
+    const filter = useSelector(state => state.filter)
+    const selectedTrip = useSelector(state => state.selectedTrip)
+    const dispatch = useDispatch()
+
     const updateLayout = (action) => {
         const tripResults = document.querySelector(".tripResults");
 
         if (action === "open") {
-            setVisibilityFilter("HOME");
+            dispatch(setVisibilityFilter("HOME"));
             tripResults.style.width = "55%";
             setTimeout(() => {
                 document.querySelector(".search").style.transform = "translateX(0.1%)";
@@ -22,7 +27,7 @@ const TripList = ({ flights, filter, selectedTrip, setVisibilityFilter }) => {
 
             setTimeout(() => {
                 tripResults.style.opacity = "1";
-                setVisibilityFilter("TRIP_RESULTS");
+                dispatch(setVisibilityFilter("TRIP_RESULTS"));
             }, 800);
         }
     };
@@ -57,8 +62,4 @@ const TripList = ({ flights, filter, selectedTrip, setVisibilityFilter }) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return { flights: state.flights, selectedTrip: state.selectedTrip, filter: state.filter };
-};
-
-export default connect(mapStateToProps, { setVisibilityFilter })(TripList);
+export default TripList;

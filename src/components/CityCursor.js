@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { incrementSelectedTrip, decrementSelectedTrip, initSelectedTrip } from "../actions";
 
-const CityCursor = ({
-    flights,
-    selectedTrip,
-    incrementSelectedTrip,
-    decrementSelectedTrip,
-    initSelectedTrip,
-}) => {
+const CityCursor = () => {
     const [firstCity, setFirstCity] = useState(0);
+    const flights = useSelector((state) => state.flights);
+    const selectedTrip = useSelector((state) => state.selectedTrip);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (selectedTrip.index > 3 && selectedTrip.index < flights.length - 3) {
@@ -25,9 +22,9 @@ const CityCursor = ({
     useEffect(() => {
         const onScroll = (event) => {
             if (event.deltaY < 0) {
-                decrementSelectedTrip(flights);
+                dispatch(decrementSelectedTrip(flights));
             } else if (event.deltaY > 0) {
-                incrementSelectedTrip(flights);
+                dispatch(incrementSelectedTrip(flights));
             }
 
             window.removeEventListener("wheel", onScroll);
@@ -37,16 +34,16 @@ const CityCursor = ({
         };
 
         window.addEventListener("wheel", onScroll);
-        initSelectedTrip(flights);
+        dispatch(initSelectedTrip(flights));
         return () => {
             window.removeEventListener("wheel", onScroll);
         };
-    }, [flights, initSelectedTrip, incrementSelectedTrip, decrementSelectedTrip]);
+    }, [flights, dispatch]);
 
     return (
         <div className="cities">
             {window.innerWidth < window.innerHeight && (
-                <div onClick={() => decrementSelectedTrip(flights)}>
+                <div onClick={() => dispatch(decrementSelectedTrip(flights))}>
                     <i
                         className={`clickable material-icons ${
                             selectedTrip.index < 1 && "disabled"
@@ -72,7 +69,7 @@ const CityCursor = ({
                 </div>
             ))}
             {window.innerWidth < window.innerHeight && (
-                <div onClick={() => incrementSelectedTrip(flights)}>
+                <div onClick={() => dispatch(incrementSelectedTrip(flights))}>
                     <i className="clickable material-icons">keyboard_arrow_down</i>
                 </div>
             )}
@@ -80,12 +77,4 @@ const CityCursor = ({
     );
 };
 
-const mapStateToProps = (state) => {
-    return { flights: state.flights, selectedTrip: state.selectedTrip };
-};
-
-export default connect(mapStateToProps, {
-    incrementSelectedTrip,
-    decrementSelectedTrip,
-    initSelectedTrip,
-})(CityCursor);
+export default CityCursor;

@@ -1,65 +1,63 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import "../css/AutoCompleteInput.css";
 
-class SearchBar extends React.Component {
-    state = {
-        results: [],
-        search: "",
-        selectedResult: -1,
-    };
+const SearchBar = ({ id, labelTitle, results, setValue, firstResult }) => {
+    const [resultsList, setResultsList] = useState([]);
+    const [search, setSearch] = useState("");
+    const [selectedResult, setSelectedResult] = useState(-1);
+    const dispatch = useDispatch()
 
-    componentDidMount() {
-        document.addEventListener("click", this.handleAllClicks);
-        document.addEventListener("keydown", this.handleKeyboard);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener("click", this.handleAllClicks);
-        document.removeEventListener("keydown", this.handleKeyboard);
-    }
-
-    handleAllClicks = (event) => {
+    const handleAllClicks = (event) => {
         if (event.target.className !== "searchBar") {
-            this.reset();
+            reset();
         }
     };
 
-    handleKeyboard = (event) => {
+    const handleKeyboard = (event) => {
         if (event.key === "Tab") {
-            this.reset();
+            reset();
         }
 
-        if (this.state.results.length > 0) {
+        if (resultsList.length > 0) {
             switch (event.key) {
                 case "ArrowDown":
-                    if (this.state.selectedResult < this.state.results.length - 1) {
-                        this.setState({ selectedResult: this.state.selectedResult + 1 });
+                    if (selectedResult < resultsList.length - 1) {
+                        setSelectedResult(selectedResult + 1);
                     }
                     break;
                 case "ArrowUp":
-                    if (this.state.selectedResult > -1) {
-                        this.setState({ selectedResult: this.state.selectedResult - 1 });
+                    if (selectedResult > -1) {
+                        setSelectedResult(selectedResult - 1);
                     }
                     break;
                 case "Enter":
-                    if (this.state.selectedResult > -1) {
-                        this.handleClick(this.state.results[this.state.selectedResult]);
+                    if (selectedResult > -1) {
+                        handleClick(resultsList[selectedResult]);
                     } else {
-                        this.handleClick(this.state.results[0]);
+                        handleClick(resultsList[0]);
                     }
                     break;
                 default:
-                    this.setState({ selectedResult: -1 });
+                    setSelectedResult(-1);
             }
         }
     };
 
-    resizeResults(search) {
+    useEffect(() => {
+        document.addEventListener("click", handleAllClicks);
+        document.addEventListener("keydown", handleKeyboard);
+        return () => {
+            document.removeEventListener("click", handleAllClicks);
+            document.removeEventListener("keydown", handleKeyboard);
+        };
+    });
+
+    const resizeResults = (search) => {
         //fonction qui permet de donner aux résultats la même largeur que le champ input
-        const wrapper = document.querySelector("#searchWrapper-" + this.props.id);
-        let resultsSpace = document.querySelector(".results." + this.props.id);
+        const wrapper = document.querySelector("#searchWrapper-" + id);
+        let resultsSpace = document.querySelector(".results." + id);
 
         if (resultsSpace) {
             resultsSpace.style.width = wrapper.offsetWidth + "px";
@@ -72,70 +70,64 @@ class SearchBar extends React.Component {
                 resultsSpace.style.display = "none";
             }
         }
-    }
+    };
 
-    handleSearchUpdate = (event) => {
-        this.resizeResults(event.target.value);
-        let results = [];
+    const handleSearchUpdate = (event) => {
+        resizeResults(event.target.value);
+        let resultsToShow = [];
 
         if (event.target.value.length > 2) {
-            results = this.props.results.filter((result) =>
-                result.title.toUpperCase().includes(this.state.search.toUpperCase())
+            resultsToShow = results.filter((result) =>
+                result.title.toUpperCase().includes(search.toUpperCase())
             );
-            this.setState({
-                results: results,
-                search: event.target.value,
-                selectedResult: -1,
-            });
+            setResultsList(resultsToShow);
+            setSearch(event.target.value);
+            setSelectedResult(-1);
         } else {
-            this.setState({ results: [], search: event.target.value, selectedResult: -1 });
+            setResultsList([]);
+            setSearch(event.target.value);
+            setSelectedResult(-1);
         }
     };
 
-    handleClick(chosenResult) {
-        this.reset();
-        this.setState({ search: chosenResult.title });
-        this.props.setValue(chosenResult.value);
-    }
+    const handleClick = (chosenResult) => {
+        reset();
+        setSearch(chosenResult.title);
+        dispatch(setValue(chosenResult.value));
+    };
 
-    reset() {
-        this.setState({ results: [], selectedResult: -1 });
-        this.resizeResults("");
-    }
+    const reset = () => {
+        setResultsList([]);
+        setSelectedResult(-1);
+        resizeResults("");
+    };
 
-    render() {
-        return (
-            <div className="autoCompleteInputWrapper">
-                <label>{this.props.labelTitle}</label>
-                <input
-                    className="autoCompleteInputField"
-                    id={`searchWrapper-${this.props.id}`}
-                    type="text"
-                    placeholder={this.props.firstResult || ""}
-                    onChange={this.handleSearchUpdate}
-                    value={this.state.search}
-                ></input>
-                <div className={`results ${this.props.id}`}>
-                    {this.state.results.map((result, id) => (
-                        //on affiche un tableau des résultats contenant la recherche qu'importe la casse
-                        <div
-                            className={`result ${
-                                this.state.selectedResult === id && "selected"
-                            }`}
-                            key={result.value}
-                            onClick={() => this.handleClick(result)}
-                        >
-                            {result.title}
-                        </div>
-                    ))}
-                </div>
+    return (
+        <div className="autoCompleteInputWrapper">
+            <label>{labelTitle}</label>
+            <input
+                className="autoCompleteInputField"
+                id={`searchWrapper-${id}`}
+                type="text"
+                placeholder={firstResult || ""}
+                onChange={handleSearchUpdate}
+                value={search}
+            ></input>
+            <div className={`results ${id}`}>
+                {resultsList.map((result, id) => (
+                    //on affiche un tableau des résultats contenant la recherche qu'importe la casse
+                    <div
+                        className={`result ${selectedResult === id && "selected"}`}
+                        key={result.value}
+                        onClick={() => handleClick(result)}
+                    >
+                        {result.title}
+                    </div>
+                ))}
             </div>
-        );
-    }
-}
-
-const mapStateToProps = (state) => {
-    return { possibilities: state.possibilities };
+        </div>
+    );
 };
 
-export default connect(mapStateToProps)(SearchBar);
+
+export default SearchBar;
