@@ -9,16 +9,7 @@ const CityCursor = () => {
     const selectedTrip = useSelector((state) => state.selectedTrip);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (selectedTrip.index > 3 && selectedTrip.index < flights.length - 3) {
-            setFirstCity(selectedTrip.index - 3);
-        } else if (selectedTrip.index < 4) {
-            setFirstCity(0);
-        } else if (selectedTrip.index > flights.length - 4) {
-            setFirstCity(flights.length - 7);
-        }
-    }, [selectedTrip, flights]);
-
+    //initialisation de la ville sélectionée + évenement de molette
     useEffect(() => {
         const onScroll = (event) => {
             if (event.deltaY < 0) {
@@ -40,9 +31,21 @@ const CityCursor = () => {
         };
     }, [flights, dispatch]);
 
+    //gestion du déplacement de la ville sélectionée et du groupe de ville
+    useEffect(() => {
+        if (selectedTrip.index > 3 && selectedTrip.index < flights.length - 3) {
+            setFirstCity(selectedTrip.index - 3);
+        } else if (selectedTrip.index < 4) {
+            setFirstCity(0);
+        } else if (selectedTrip.index > flights.length - 4) {
+            setFirstCity(flights.length - 7);
+        }
+    }, [selectedTrip, flights]);
+
     return (
         <div className="cities">
             {window.innerWidth < window.innerHeight && (
+                //flèche pour les mobiles qui n'ont pas de souris
                 <div onClick={() => dispatch(decrementSelectedTrip(flights))}>
                     <i
                         className={`clickable material-icons ${
@@ -69,6 +72,7 @@ const CityCursor = () => {
                 </div>
             ))}
             {window.innerWidth < window.innerHeight && (
+                //flèche pour les mobiles qui n'ont pas de souris
                 <div onClick={() => dispatch(incrementSelectedTrip(flights))}>
                     <i className="clickable material-icons">keyboard_arrow_down</i>
                 </div>

@@ -10,6 +10,7 @@ const TripList = () => {
     const filter = useSelector((state) => state.filter);
     const dispatch = useDispatch();
 
+    //animation ouverture/fermeture du formulaire
     const updateLayout = (action) => {
         const tripResults = document.querySelector(".tripResults");
 
@@ -31,6 +32,7 @@ const TripList = () => {
         }
     };
 
+    //image de fond si jamais aucun vol n'a été trouvé
     useEffect(() => {
         if (flights.length === 0) {
             document.body.style.backgroundImage =

@@ -3,18 +3,20 @@ import { useDispatch } from "react-redux";
 
 import "../css/AutoCompleteInput.css";
 
-const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstResult }) => {
+const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstResult="" }) => {
     const [resultsList, setResultsList] = useState([]);
     const [search, setSearch] = useState(presetValue.title);
     const [selectedResult, setSelectedResult] = useState(-1);
     const dispatch = useDispatch()
 
+    //si l'utilisateur clique en dehors du champ on enleve les résultats de recherche
     const handleAllClicks = (event) => {
         if (event.target.className !== "searchBar") {
             reset();
         }
-    };
+    }; 
 
+    //navigation dans les résultats avec le clavier
     const handleKeyboard = (event) => {
         if (event.key === "Tab") {
             reset();
@@ -54,8 +56,8 @@ const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstRes
         };
     });
 
+    //fonction qui permet de donner aux résultats la même largeur que le champ input
     const resizeResults = (search) => {
-        //fonction qui permet de donner aux résultats la même largeur que le champ input
         const wrapper = document.querySelector("#searchWrapper-" + id);
         let resultsSpace = document.querySelector(".results." + id);
 
@@ -72,6 +74,7 @@ const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstRes
         }
     };
 
+    //création des suggestions de recherche
     const handleSearchUpdate = (event) => {
         resizeResults(event.target.value);
         let resultsToShow = [];
@@ -90,12 +93,14 @@ const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstRes
         }
     };
 
+    //lorqu'un résultat est choisi
     const handleClick = (chosenResult) => {
         reset();
         setSearch(chosenResult.title);
         dispatch(setValue(chosenResult));
     };
 
+    //réinitialisation des variables d'état et suppression de l'affichage de résultats
     const reset = () => {
         setResultsList([]);
         setSelectedResult(-1);
@@ -109,13 +114,12 @@ const SearchBar = ({ id, labelTitle, results, presetValue="", setValue, firstRes
                 className="autoCompleteInputField"
                 id={`searchWrapper-${id}`}
                 type="text"
-                placeholder={firstResult || ""}
+                placeholder={firstResult}
                 onChange={handleSearchUpdate}
                 value={search}
             ></input>
             <div className={`results ${id}`}>
                 {resultsList.map((result, id) => (
-                    //on affiche un tableau des résultats contenant la recherche qu'importe la casse
                     <div
                         className={`result ${selectedResult === id && "selected"}`}
                         key={result.value}

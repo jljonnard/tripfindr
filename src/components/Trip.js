@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import "../css/Trip.css";
 
-import { fetchPhoto, openDetails } from "../actions";
 import TripDetails from "./TripDetails";
+
+import { fetchPhoto, openDetails } from "../actions";
 
 const Trip = () => {
     const selectedTrip = useSelector(state => state.selectedTrip)
@@ -12,6 +13,7 @@ const Trip = () => {
     const areDetailsOpen = useSelector(state => state.areDetailsOpen)
     const dispatch = useDispatch()
 
+    //à la création du composant, fait la requête API pour la photo
     useEffect(() => {
         dispatch(fetchPhoto(
             selectedTrip.englishCityName,
@@ -19,10 +21,12 @@ const Trip = () => {
         ));
     }, [selectedTrip, dispatch]);
 
+    //une fois que la photo est arrivée, on la met en fond
     useEffect(() => {
         document.body.style.backgroundImage = photo;
     }, [photo]);
 
+    //ouverture des détails avec animation
     const handleDetails = () => {
         dispatch(openDetails());
         setTimeout(() => {

@@ -11,6 +11,7 @@ const TripDetails = () => {
     const selectedTrip = useSelector(state => state.selectedTrip)
     const dispatch = useDispatch()
 
+    //fermeture des détails avec animation
     const handleDetails = () => {
         document.querySelector(".details-wrap").style.transform = "translateY(+20%)";
         setTimeout(() => {
@@ -28,6 +29,7 @@ const TripDetails = () => {
                 </div>
             </div>
             <div className="media detailCity">{selectedTrip.frenchCityName}</div>
+            {/*infos vol aller*/}
             <Route
                 carrier={selectedTrip.outboundLegCarrier}
                 day={selectedTrip.outboundLegDay}
@@ -36,6 +38,7 @@ const TripDetails = () => {
                 destination={selectedTrip.outboundLegAirport}
                 direct={selectedTrip.direct}
             />
+            {/*infos vol retour*/}
             <Route
                 carrier={selectedTrip.inboundLegCarrier}
                 day={selectedTrip.inboundLegDay}
@@ -44,7 +47,6 @@ const TripDetails = () => {
                 destination={selectedTrip.originAirport}
                 direct={selectedTrip.direct}
             />
-            {/*le bouton nous redirige vers le lien qu'on a créé au début du composant*/}
             <a
                 className="button middle normal"
                 href={selectedTrip.link}

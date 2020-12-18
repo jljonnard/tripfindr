@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import DropDown from "./DropDown.js";
+import DropDown from "./DropDown";
 import SearchBar from "./SearchBar";
 
 import {
@@ -16,26 +16,21 @@ import {
     setVisibilityFilter,
 } from "../actions";
 
-import { airports, countries, seasons, ranges } from "../utilities/constants.js";
+import { airports, countries, seasons, ranges } from "../utilities/constants";
 
 const Form = () => {
     const fields = useSelector((state) => state.fields);
     const dispatch = useDispatch();
 
+    //lance la requête API des vols si le formulaire est conforme
     const submitForm = () => {
         if (checkForm()) {
-            console.log(fields);
             dispatch(fetchFlights(fields));
-            if (document.querySelector(".tripResults")) {
-                document.querySelector(".tripResults").style.width = "100%";
-            }
-            document.querySelector(".search").style.transform = "translateX(-100%)";
-            setTimeout(() => {
-                dispatch(setVisibilityFilter("TRIP_RESULTS"));
-            }, 700);
+            animation();
         }
     };
 
+    //vérifie la conformité du formulaire
     const checkForm = () => {
         if (fields.origin) {
             document.querySelector(".alert").style.display = "none";
@@ -44,6 +39,14 @@ const Form = () => {
             document.querySelector(".alert").style.display = "block";
             return false;
         }
+    };
+
+    //animation de translation du formulaire
+    const animation = () => {
+        document.querySelector(".search").style.transform = "translateX(-100%)";
+        setTimeout(() => {
+            dispatch(setVisibilityFilter("TRIP_RESULTS"));
+        }, 700);
     };
 
     return (
@@ -68,9 +71,6 @@ const Form = () => {
                         presetValue={fields.destination}
                         setValue={setDestination}
                     />
-                    <span className="alert">
-                        Veuillez sélectionner un pays ou laisser le champ vide
-                    </span>
                 </div>
                 <div className="field half first">
                     <DropDown
