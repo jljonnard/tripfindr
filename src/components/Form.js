@@ -20,6 +20,7 @@ import { airports, countries, seasons, ranges } from "../utilities/constants";
 
 const Form = () => {
     const fields = useSelector((state) => state.fields);
+    const flights = useSelector((state) => state.flights);
     const dispatch = useDispatch();
 
     //lance la requête API des vols si le formulaire est conforme
@@ -46,6 +47,9 @@ const Form = () => {
         document.querySelector(".search").style.transform = "translateX(-100%)";
         setTimeout(() => {
             dispatch(setVisibilityFilter("TRIP_RESULTS"));
+            if (flights) {
+                document.querySelector(".tripResults").style.width = "100%";
+            }
         }, 700);
     };
 
