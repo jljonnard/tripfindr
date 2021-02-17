@@ -33,6 +33,8 @@ const CityCursor = () => {
 
     //gestion du déplacement de la ville sélectionée et du groupe de ville
     useEffect(() => {
+        console.log(flights)
+        console.log(selectedTrip)
         if (selectedTrip.index > 3 && selectedTrip.index < flights.length - 3) {
             setFirstCity(selectedTrip.index - 3);
         } else if (selectedTrip.index < 4) {

@@ -6,7 +6,6 @@ export default (state = null, action) => {
     switch (action.type) {
         case "FETCH_FLIGHTS":
             return action.payload.fr.data.Quotes.map((quote, id) => ({
-                index: id,
                 price: quote.MinPrice,
                 direct: quote.Direct,
                 frenchCityName: getObject(
@@ -104,7 +103,8 @@ export default (state = null, action) => {
                                       getRange(flight.outboundLegDate, flight.inboundLegDate)
                                   ))
                         )
-                );
+                )
+                .map((flight, id) => ({ ...flight, index: id }));
         default:
             return state;
     }
