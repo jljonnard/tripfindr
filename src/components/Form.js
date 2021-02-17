@@ -96,7 +96,7 @@ const Form = () => {
                         onChange={(event) =>
                             dispatch(setMinPrice(parseInt(event.target.value)))
                         }
-                        value={fields.minPrice}
+                        value={isNaN(fields.minPrice) ? "" : fields.minPrice}
                     />
                 </div>
                 <div className="field half">
@@ -107,7 +107,7 @@ const Form = () => {
                         onChange={(event) =>
                             dispatch(setMaxPrice(parseInt(event.target.value)))
                         }
-                        value={fields.maxPrice}
+                        value={isNaN(fields.maxPrice) ? "" : fields.maxPrice}
                     />
                 </div>
                 <div className="field solo">
