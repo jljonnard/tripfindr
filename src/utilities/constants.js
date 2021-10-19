@@ -442,34 +442,34 @@ export const seasons = [{
       value: "anytime"
   },{
       title: "Janvier",
-      value: "2021-01"
+      value: "2022-01"
   },{
       title: "Février",
-      value: "2021-02"
+      value: "2022-02"
   },{
       title: "Mars",
-      value: "2021-03"
+      value: "2022-03"
   },{
       title: "Avril",
-      value: "2021-04"
+      value: "2022-04"
   },{
       title: "Mai",
-      value: "2021-05"
+      value: "2022-05"
   },{
       title: "Juin",
-      value: "2021-06"
+      value: "2022-06"
   },{
       title: "Juillet",
-      value: "2021-07"
+      value: "2022-07"
   },{
       title: "Août",
-      value: "2021-08"
+      value: "2022-08"
   },{
       title: "Septembre",
-      value: "2021-09"
+      value: "2022-09"
   },{
       title: "Octobre",
-      value: "2021-10"
+      value: "2022-10"
   },{
       title: "Novembre",
       value: "2021-11"
